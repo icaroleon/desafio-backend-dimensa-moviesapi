@@ -20,7 +20,9 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+  username: icleon
+  password: <%= ENV['APPNAME_DATABASE_PASSWORD'] %>
+ 
 development:
   <<: *default
   database: desafio_backend_dimensa_moviesapi_development
