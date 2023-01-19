@@ -11,15 +11,20 @@ class MoviesController < ActionController::API
     new_id = SecureRandom.uuid
     
     if csv_file.nil?
-      render :json => { :error => "We don't receive a CSV file. Please check again." }, :status => 204
+      return render :json => { :error => "We don't receive an CSV file. Please check again." }, :status => 200
     elsif csv_file.content_type != 'text/csv'
-      render :json => { :error => 'We only accept CSV files. Please check again.' }, :status => 415
+      return render :json => { :error => 'We only accept CSV files. Please check again.' }, :status => 415
     else  
       CSV.foreach(csv_file, headers: true) do |row|
-        data = row.to_hash
-        ActiveRecord::Base.transaction do
-          Movie.create(data)
-        end
+        movie = Movie.create({ 
+          title: row['title'],
+          genre: row['type'],
+          year: row['release_year'],
+          country: row['country'],
+          published_at: row['date_added'],
+          description: row['description'] })
+        movie.save
+        return render :json => { :successful => 'We just saved the CSV that you send to us. Thank you.' }, :status => 200
       end
     end  
   end
