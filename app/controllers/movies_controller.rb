@@ -11,9 +11,9 @@ class MoviesController < ActionController::API
     new_id = SecureRandom.uuid
     
     if csv_file.nil?
-      return render :json => { :error => "We don't receive an CSV file. Please check again." }, :status => 200
+      return render :json => { :error => "We don't receive an CSV file. Please check again." }, :status => 400
     elsif csv_file.content_type != 'text/csv'
-      return render :json => { :error => 'We only accept CSV files. Please check again.' }, :status => 415
+      return render :json => { :error => 'We only accept CSV files. Please check if are sending CSV to us.' }, :status => 415
     else  
       CSV.foreach(csv_file, headers: true) do |row|
         movie = Movie.create({ 
