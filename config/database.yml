@@ -21,8 +21,8 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: icleon
-  password: <%= ENV['APPNAME_DATABASE_PASSWORD'] %>
- 
+  password: <%= ENV['desafio_backend_dimensa_moviesapi_DATABASE_PASSWORD'] %>
+
 development:
   <<: *default
   database: desafio_backend_dimensa_moviesapi_development
@@ -85,4 +85,4 @@ production:
   <<: *default
   database: desafio_backend_dimensa_moviesapi_production
   username: desafio_backend_dimensa_moviesapi
-  password: <%= ENV['DESAFIO_BACKEND_DIMENSA_MOVIESAPI_DATABASE_PASSWORD'] %>
+  password: <%= ENV['desafio_backend_dimensa_moviesapi_DATABASE_PASSWORD'] %>
