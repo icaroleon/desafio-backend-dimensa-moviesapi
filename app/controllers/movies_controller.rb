@@ -2,12 +2,21 @@ require 'csv'
 
 class MoviesController < ActionController::API
   def index
-    return movies = Movie.all
+    query = params[:query]
+    if query.empty?
+      return render :json => { :error => "You don't send any query to movie search. Please check" }, :status => 400
+    elsif search_movies_unorder_list = Movie.search_movie(query) 
+    search_movies_order_list = search_movies_unorder_list.sort_by{|key, value| key["year"]}.reverse
+      if search_movies_order_list.empty?
+        return render :json => { :error => "We don't find this term that you are looking for. Please try another." }, :status => 404
+      else
+        return render :json => { :successful => search_movies_order_list }, :status => 200
+      end
+    end
   end
 
   def create  
     csv_file = params[:file]
-
     if csv_file.nil?
       return render :json => { :error => "We don't receive any CSV file. Please check again." }, :status => 400
     elsif csv_file.content_type != 'text/csv'
@@ -21,8 +30,8 @@ class MoviesController < ActionController::API
           country: row['country'],
           published_at: row['date_added'],
           description: row['description'] })
-        end
-          return render :json => { :successful => 'We just saved the CSV that you send to us. Thank you.' }, :status => 200
+      end
+      return render :json => { :successful => 'We just saved the CSV that you send to us. Thank you.' }, :status => 200
     end  
   end
 end
