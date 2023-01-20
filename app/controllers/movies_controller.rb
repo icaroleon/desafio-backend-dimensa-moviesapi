@@ -5,12 +5,13 @@ class MoviesController < ActionController::API
     query = params[:query]
     if query.empty?
       return render :json => { :error => "You don't send any query to movie search. Please check" }, :status => 400
-    elsif search_movies_unorder_list = Movie.search_movie(query) 
-    search_movies_order_list = search_movies_unorder_list.sort_by{|key, value| key["year"]}.reverse
-      if search_movies_order_list.empty?
+    else 
+    movies_search_list = Movie.search_movie(query) 
+    movies_search_ordered_list = movies_search_list.sort_by{|key, value| key["year"]}.reverse
+      if movies_search_ordered_list.empty?
         return render :json => { :error => "We don't find this term that you are looking for. Please try another." }, :status => 404
       else
-        return render :json => { :successful => search_movies_order_list }, :status => 200
+        return render :json => { :results => movies_search_ordered_list }, :status => 200
       end
     end
   end
