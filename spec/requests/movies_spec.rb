@@ -2,8 +2,8 @@ require 'rails_helper'
 require "rspec/expectations"
 require 'debug'
 
-RSpec.describe MoviesController, :type => :controller do
-  describe 'GET /movies' do 
+RSpec.describe Api::V1::MoviesController, :type => :controller do
+  describe 'GET /api/v1/movies' do 
     context 'Unit tests to run for the query that the user submit' do
       before(:each) do
         FactoryBot.create(:movie, title: 'Central do Brasil', genre: 'Drama', year: '1998', country: 'Brazil', description: 'Dora, uma amargurada ex-professora, ganha a vida escrevendo cartas para pessoas analfabetas, que ditam o que querem contar às suas famílias. Ela embolsa o dinheiro sem sequer postar as cartas. Um dia, Josué, o filho de nove anos de idade de uma de suas clientes, acaba sozinho quando a mãe é morta em um acidente de ônibus. Ela reluta em cuidar do menino, mas se junta a ele em uma viagem pelo interior do Nordeste em busca do pai de Josué, que ele nunca conheceu.', published_at: '1998-03-04') 
@@ -34,7 +34,7 @@ RSpec.describe MoviesController, :type => :controller do
     end     
   end
   
-  describe 'POST /movies' do
+  describe 'POST /api/v1/movies' do
     context 'Unit tests to run for POSTS requests that send information to storage in the API database' do
       before(:each) do
         headers = ["Title", "Genre", "Year", "Country", "Description", "published_at"]

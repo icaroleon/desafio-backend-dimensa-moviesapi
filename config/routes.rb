@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
-  resources :movies, only: %i[index create]
-  get "/movies/search", to: "movies#index" 
+  namespace :api, defaults: { format: :json} do
+    namespace :v1 do
+      get "/movies/search", to: "movies#index" 
+    resources :movies, only: %i[index create]
+    end
+  end  
 end
