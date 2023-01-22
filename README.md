@@ -40,6 +40,7 @@ Criar uma API de serviço do catálogo de filmes. Para isso será necessário cr
 ## Como acessá-los:
 
 - Para ter acesso à API na sua máquina local:
+
 ```
 git clone https://github.com/icaroleon/desafio-backend-dimensa-moviesapi
 cd desafio-backend-dimensa-moviesapi
@@ -63,11 +64,13 @@ rails db:create db:migrate
 rails s
 ```
 
-### Para criação de novos registros(**POST Request**):
+### Para criação de novos registros (**POST Request**):
+
 - O request deverá ser enviado para:
 ```
   http://localhost:3000/api/v1/movies
 ```
+
 - Durante a elaboração da POST request, é necessário enviar um form-data com um file que contém os registros que deseja salvar no Banco de Dados.
    - A request ficará dessa forma[^2]:
      `
@@ -83,20 +86,49 @@ rails s
 ```
 http://localhost:3000/api/v1/movies?query={termoQueDesejaPesquisar)
 ```
+
 ## **Como testar:**
+
 - O RSPEC foi utilzado para a criação de testes. Seis testes foram criados, são eles:
   - Três testes para o GET request:
-    1. Para verificar quando uma query vazia é enviada. Retorna: Status 404 e o JSON contendo: "You don't send any query to movie search. Please check"
-    2. Para verificar quando uma query sem resultados é enviada. Retorna: Status 400 e o JSON contendo: "We don't find this term that you are looking for. Please try another."
-    3. Para verificar quando uma query com resultados é enviada. Retorna: Status 200 e o JSON contendo os resultados encontrados.
+    1. Para verificar quando uma query vazia é enviada. Retorna:
+    `
+    Status 404 e o JSON contendo: "You don't send any query to movie search. Please check."
+    `
+    2. Para verificar quando uma query sem resultados é enviada. Retorna:
+     `
+    Status 400 e o JSON contendo: "We don't find this term that you are looking for. Please try another."
+    `
+    3. Para verificar quando uma query com resultados é enviada. Retorna: 
+    `
+    Status 200 e o JSON contendo os resultados encontrados.
+    `
   - Três testes para o POST request:
-    1. Para verificar quando um request é enviada sem o arquivo necessário para salvar no banco de dados. Retorna: Status 400 e o JSON contendo: "We don't receive any CSV file. Please check again."
-    2. Para verificar quando um request é enviada com algum arquivo anexado que não seja do formato .csv, não sendo possível salvar no banco de dados. Retorna: Status 415 e o JSON contendo: "We only accept CSV files. Please check if are sending CSV to us."
-    3. Para verificar quando um request é enviada com um arquivo .csv, sendo possível salvar os registros no banco de dados. Retorna: Status 200 e o JSON contendo: "We just saved the CSV that you send to us. Thank you."
+    1. Para verificar quando um request é enviada sem o arquivo necessário para salvar no banco de dados. Retorna:
+    `
+    Status 400 e o JSON contendo: "We don't receive any CSV file. Please check again."
+    `
+    2. Para verificar quando um request é enviada com algum arquivo anexado que não seja do formato .csv, não sendo possível salvar no banco de dados. Retorna: 
+    `
+    Status 415 e o JSON contendo: "We only accept CSV files. Please check if are sending CSV to us."
+    `
+    3. Para verificar quando um request é enviada com um arquivo .csv, sendo possível salvar os registros no banco de dados. Retorna: 
+    `
+    Status 200 e o JSON contendo: "We just saved the CSV that you send to us. Thank you."
+    `
+    
+- Para tanto, execute o comando:
+
 ```
 rspec
 ```
 
 
+### **Enjoy :D**
+
+
+
 [^1]: Três respostas são possíveis: 1 - Nenhum tipo de query foi enviada; 2 - A busca encontrou registros com o termo enviado; 3 - A busca não encontrou qualquer tipo de resultado com o termo pesquisado. Todas as response se encontram formatadas em arquivo JSON. 
 [^2]: Três respostas são possíveis: 1 - Não foi enviado qualquer tipo de arquivo; 2 - O arquivo enviado não é da extensão .csv; 3 - Os registros do arquivo enviado foram definitivamente salvos no banco de dados. Todas as response se encontram formatadas em arquivo JSON.
+
+
