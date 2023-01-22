@@ -7,7 +7,7 @@ RSpec.describe Api::V1::MoviesController, :type => :controller do
     context 'Unit tests to run for the query that the user submit' do
       before(:each) do
         FactoryBot.create(:movie, title: 'Central do Brasil', genre: 'Drama', year: '1998', country: 'Brazil', description: 'Dora, uma amargurada ex-professora, ganha a vida escrevendo cartas para pessoas analfabetas, que ditam o que querem contar às suas famílias. Ela embolsa o dinheiro sem sequer postar as cartas. Um dia, Josué, o filho de nove anos de idade de uma de suas clientes, acaba sozinho quando a mãe é morta em um acidente de ônibus. Ela reluta em cuidar do menino, mas se junta a ele em uma viagem pelo interior do Nordeste em busca do pai de Josué, que ele nunca conheceu.', published_at: '1998-03-04') 
-        FactoryBot.create(:movie, title: 'Central do Brasil lero', genre: 'Drama2', year: '1992', country: 'Brazil2', description: '222Dora, uma amargurada ex-professora, ganha a vida escrevendo cartas para pessoas analfabetas, que ditam o que querem contar às suas famílias. Ela embolsa o dinheiro sem sequer postar as cartas. Um dia, Josué, o filho de nove anos de idade de uma de suas clientes, acaba sozinho quando a mãe é morta em um acidente de ônibus. Ela reluta em cuidar do menino, mas se junta a ele em uma viagem pelo interior do Nordeste em busca do pai de Josué, que ele nunca conheceu.', published_at: '1998-03-04') 
+        FactoryBot.create(:movie, title: 'Batman: The Dark Night', genre: 'Action', year: '2008', country: 'USA', description: 'The plot follows the vigilante Batman, police lieutenant James Gordon, and district attorney Harvey Dent, who form an alliance to dismantle organized crime in Gotham City. Their efforts are derailed by the Joker, an anarchistic mastermind who seeks to test how far Batman will go to save the city from chaos.', published_at: '2008-07-18') 
       end
       
       it 'returns all movies' do
@@ -38,8 +38,8 @@ RSpec.describe Api::V1::MoviesController, :type => :controller do
     context 'Unit tests to run for POSTS requests that send information to storage in the API database' do
       before(:each) do
         headers = ["Title", "Genre", "Year", "Country", "Description", "published_at"]
-        first_row = ["name1@example.com", "name2@example.com", "1998", "name1@example.com", "name2@example.com", "01-01-1980"]
-        second_row = ["name2@example.com", "name2@example.com", "1998", "name1@example.com", "name2@example.com", "01-01-1980"]
+        first_row = ['Central do Brasil', 'Drama', '1998', 'Brazil', 'Dora, uma amargurada ex-professora, ganha a vida escrevendo cartas para pessoas analfabetas, que ditam o que querem contar às suas famílias. Ela embolsa o dinheiro sem sequer postar as cartas. Um dia, Josué, o filho de nove anos de idade de uma de suas clientes, acaba sozinho quando a mãe é morta em um acidente de ônibus. Ela reluta em cuidar do menino, mas se junta a ele em uma viagem pelo interior do Nordeste em busca do pai de Josué, que ele nunca conheceu.', '1998-03-04']
+        second_row = ['Batman: The Dark Night', 'Action', '2008', 'USA', 'The plot follows the vigilante Batman, police lieutenant James Gordon, and district attorney Harvey Dent, who form an alliance to dismantle organized crime in Gotham City. Their efforts are derailed by the Joker, an anarchistic mastermind who seeks to test how far Batman will go to save the city from chaos.', '2008-07-18']
         
        CSV.open('movies_test.csv', 'w') do |csv|
           csv << headers
