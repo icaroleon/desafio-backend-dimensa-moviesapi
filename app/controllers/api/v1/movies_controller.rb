@@ -1,6 +1,6 @@
 require 'csv'
 
-class MoviesController < ActionController::API
+class Api::V1::MoviesController < Api::V1::BaseController
   def index
     query = params[:query]
     if query.empty?
