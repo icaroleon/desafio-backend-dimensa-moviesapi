@@ -37,17 +37,26 @@ Criar uma API de serviço do catálogo de filmes. Para isso será necessário cr
 |  GET  |  Método que possibilita a busca nos registros salvos [^1]  |
 | POST  | Método que possibilita criar um novo registro [^2]  |
 
-### Como acessá-los:
+## Como acessá-los:
 
 - Primeiro é necessário executar o comando para o servidor local iniciar:
 ```
 rails s
 ```
 
-#### Método **POST**:
-1. Durante a elaboração da POST request, é necessário enviar um form-data com um file que contém os registros que deseja salvar no Banco de Dados.
-   - A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE [^2].
+### Para criação de novos registros(**POST Request**):
+1. O request deverá ser enviado para:
+```
+  http://localhost:3000/movies
+```
+2. Durante a elaboração da POST request, é necessário enviar um form-data com um file que contém os registros que deseja salvar no Banco de Dados.
+   - A request ficará dessa forma:
+     `
+     headers => Content-Type text/csv body => file: csv_file.csv
+     `
+   - A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE [^2]. 
 
+### Para buscar em registros salvos (**GET Request**):
 
 - Testes são bem-vindos.
 - O filtro pode ser aplicado por 1 ou mais itens, mas devem atender aos requisitos.
