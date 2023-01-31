@@ -1,7 +1,6 @@
 class Movie < ApplicationRecord
   include PgSearch::Model
   pg_search_scope :search_movie, against: %i[title genre year country published_at description]
-  
   validates :id, :title, uniqueness: true
   validates :title, :genre, :year, :country, :description, :published_at, presence: true
 

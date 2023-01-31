@@ -6,19 +6,19 @@ require 'json'
 class Api::V1::MoviesController < Api::V1::BaseController
   def index
     query = params[:query]
-    @movies = Movie.all
+    movies = Movie.all.sort_by { |key, _value| key['year']}.reverse
     if query.nil?
-      render json: @movies
+      render json: movies, status: 200
     elsif query.empty?
       render json: { error: "You don't send any term to search. Please verify." }, status: 404
     else
-      movies_search_list = Movie.search_movie(query) 
-      movies_search_ordered_list = movies_search_list.sort_by {|key, value| key["year"]}.reverse
-    if movies_search_ordered_list.empty?
-      render json: { error: "We don't find this term that you are looking for. Please try another." }, :status => 404
-    else
-      render json: { results: movies_search_ordered_list }, status: 200
-    end
+      movies_search_list = Movie.search_movie(query)
+      movies_search_ordered_list = movies_search_list.sort_by { |key, _value| key['year']}.reverse
+      if movies_search_ordered_list.empty?
+        render json: { error: "We don't find this term that you are looking for. Please try another." }, status: 404
+      else
+        render json: movies_search_ordered_list, status: 200
+      end
     end
   end
 
