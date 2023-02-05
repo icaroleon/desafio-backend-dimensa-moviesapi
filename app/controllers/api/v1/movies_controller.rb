@@ -1,12 +1,11 @@
 #movies Controller
 
 require 'csv'
-require 'json'
 
 class Api::V1::MoviesController < Api::V1::BaseController
   def index
     query = params[:query]
-    movies = Movie.all.sort_by { |key, _value| key['year']}.reverse
+    movies = Movie.all.sort_by { |key, _value| key['year'] }.reverse
     if query.nil?
       render json: movies, status: 200
     elsif query.empty?
