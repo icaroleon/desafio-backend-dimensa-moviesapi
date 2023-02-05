@@ -4,5 +4,5 @@ Rails.application.routes.draw do
       get "/movies/search", to: "movies#index" 
     resources :movies, only: %i[index create]
     end
-  end  
+  end
 end
