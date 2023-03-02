@@ -42,8 +42,8 @@ Criar uma API de serviço do catálogo de filmes. Para isso será necessário cr
 - Para ter acesso à API na sua máquina local:
 
 ```
-git clone https://github.com/icaroleon/desafio-backend--moviesapi
-cd desafio-backend-dimensa-moviesapi
+git clone https://github.com/icaroleon/desafio-backend-moviesapi
+cd desafio-backend-moviesapi
 bundle install
 ```
 - Como a extensão 'pgcrypto' é utilizada para a geração de UUID, é necessário que esteja logado como 'SUPERUSER' no postgreSQL: 
