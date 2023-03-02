@@ -1,4 +1,4 @@
-# **Desafio Backend Mobile2You**
+# **Desafio Backend**
 
 # **Desafio API**
 
@@ -42,7 +42,7 @@ Criar uma API de serviço do catálogo de filmes. Para isso será necessário cr
 - Para ter acesso à API na sua máquina local:
 
 ```
-git clone https://github.com/icaroleon/desafio-backend-dimensa-moviesapi
+git clone https://github.com/icaroleon/desafio-backend--moviesapi
 cd desafio-backend-dimensa-moviesapi
 bundle install
 ```
