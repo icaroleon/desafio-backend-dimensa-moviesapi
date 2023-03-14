@@ -25,11 +25,11 @@ RSpec.describe Api::V1::MoviesController, :type => :controller do
         expect(response.body).to include("We don't find this term that you are looking for. Please try another.")
       end
 
-      it "don't find any movie" do
+      it "don't find any movie because the query is nill" do
         get :index, params: { query: nil }
 
-        expect(response).to have_http_status(400)
-        expect(response.body).to include("You don't send any query to movie search. Please check")
+        expect(response).to have_http_status(404)
+        expect(response.body).to include("You don't send any term to search. Please verify.")
       end
     end
   end
