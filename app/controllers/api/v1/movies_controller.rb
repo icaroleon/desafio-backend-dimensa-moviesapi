@@ -1,14 +1,10 @@
-#movies Controller
-
 require 'csv'
 require 'json'
 
 class Api::V1::MoviesController < Api::V1::BaseController
   def index
     @query = params[:query]
-
     return all_movies if @query.nil?
-
     return empty_query if @query.empty?
 
     query_find_it
@@ -16,10 +12,8 @@ class Api::V1::MoviesController < Api::V1::BaseController
 
   def create
     @csv_file = params[:file]
-
     return empty_csv if @csv_file.nil?
     return diferent_content_file_type if @csv_file.content_type != 'text/csv'
-
     save_csv
   end
 
@@ -64,5 +58,4 @@ class Api::V1::MoviesController < Api::V1::BaseController
     end
     render json: { successful: 'We just saved the CSV that you send to us. Thank you.' }, status: 200
   end
-
 end
