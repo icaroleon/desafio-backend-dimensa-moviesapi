@@ -45,3 +45,4 @@ gem 'pg_search'
 gem 'rspec-debug'
 gem "debug", ">= 1.0.0"
 gem 'active_model_serializers', '~> 0.10.2'
+gem 'to_api', '~> 1.3'
