@@ -4,27 +4,27 @@ class Movie < ApplicationRecord
   validates :id, :title, uniqueness: true
   validates :title, :genre, :year, :country, :description, :published_at, presence: true
 
-  def self.to_api
+  def self.to_api(movie)
     {
-      id: id,
-      title: title,
-      genre: genre,
-      year: year,
-      country: country,
-      published_at: published_at,
-      description: description
+      id: movie.id,
+      title: movie.title,
+      genre: movie.genre,
+      year: movie.year,
+      country: movie.country,
+      published_at: movie.published_at,
+      description: movie.description
     }
   end
 
   ### Index
 
   def self.all_movies
-    Movie.all.sort_by { |key, _value| key['year']}.reverse
+    Movie.all.order(year: :desc)
   end
 
   def self.search(query)
     movies_search_list = Movie.search_movie(query)
-    movies_search_ordered_list = movies_search_list.sort_by { |key, _value| key['year']}.reverse
+    movies_search_ordered_list = movies_search_list.order(year: :desc)
 
     movies_search_ordered_list.map(&:to_api)
   end
@@ -42,5 +42,6 @@ class Movie < ApplicationRecord
                       description: row['description']
                   })
     end
+    { message: "Movies successfully imported." }
   end
 end
