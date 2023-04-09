@@ -4,11 +4,15 @@ require 'json'
 class Api::V1::MoviesController < Api::V1::BaseController
   def index
     query = params[:query]
-    return render json: Movie.all_movies if query.nil?
-    return render json: { error: "You don't send any term to search. Please verify." }, status: 400 if query.empty?
+    page = params[:page]
+
+    return render json: Movie.all_movies(page) if query.nil?
+
+    return render json: { error: "The query that you send it was empty. Please verify." }, status: 400 if query.empty?
+
     return render json: { message: "We don't find any movies with this term. Try another" }, status: 404 if Movie.search(query).empty?
 
-    render json: Movie.search(query)
+    render json: Movie.search(query, page)
   end
 
   def create
