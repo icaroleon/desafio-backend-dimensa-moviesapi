@@ -1,7 +1,5 @@
  # **Desafio Backend**
 
-# **Desafio API**
-
 <p align="justify"> API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da empresa Dimensa[^1]. A API é capaz de armazenar informações sobre filmes, incluindo título, diretor, sinopse, ano de lançamento e gênero. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON. </p align="justify">
 
 ### **Requisitos:**
