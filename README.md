@@ -39,14 +39,14 @@ API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da e
 
 ## Como acessá-los:
 
-- Para ter acesso à API na sua máquina local:
+Para ter acesso à API na sua máquina local:
 
 ```
 git clone https://github.com/icaroleon/desafio-backend-dimensa-moviesapi
 cd desafio-backend-moviesapi
 bundle install
 ```
-- Como a extensão 'pgcrypto' é utilizada para a geração de UUID, é necessário que esteja logado como 'SUPERUSER' no postgreSQL: 
+Como a extensão 'pgcrypto' é utilizada para a geração de UUID, é necessário que esteja logado como 'SUPERUSER' no postgreSQL: 
 ```
 1- sudo -u postgres psql // connect to postgresql
 2- password = ** // adding your password
@@ -55,18 +55,18 @@ bundle install
 5- postgres=# ALTER USER username WITH SUPERUSER; // Edit user role to superuser
 6- migrate
 ```
-- Após estar logado como SUPERUSER, rodar o seguinte comando para criação do Banco de Dados:
+Após estar logado como SUPERUSER, rodar o seguinte comando para criação do Banco de Dados:
 ```
 rails db:create db:migrate
 ```
-- Após, executar o comando para o servidor local iniciar:  
+Após, executar o comando para o servidor local iniciar:  
 ```
 rails s
 ```
 
 ### **POST Request** (Para criação de novos registros):
 
-- O request deverá ser enviado para:
+O request deverá ser enviado para:
 ```
   http://localhost:3000/api/v1/movies
 ```
@@ -80,24 +80,33 @@ rails s
 
 ### **GET Request** (Para busca em registros salvos):
 
-A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a configuração da API apresenta a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:
+#### Sobre a paginação:
+
+- A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a configuração da API apresenta a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:
 
 ```
-localhost:3000/api/v1/movies/?page={páginaQueDeseja)
+http://localhost:3000/api/v1/movies/?page={páginaQueDeseja)
+```
+#### Para listar todos os filmes:
+
+- Para que sejam retornados todos os filmes listados, é necessário enviar um GET request sem passar nenhum tipo de parâmetro. Como dito acima, em decorrência da implementação da paginação, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request. A requisição ficará dessa forma:
+
+```
+http://localhost:3000/api/v1/movies # para listar todos os filmes
+http://localhost:3000/api/v1/movies/?page=2 # para ter acesso à segunda página de todos os filmes listados
 ```
 
-- Para que sejam retornados todos os filmes listados, é necessário enviar um GET request sem passar nenhum tipo de parâmetro. A requisição ficará dessa forma:
-
-```
-http://localhost:3000/api/v1/movies
-```
+#### Para pesquisas específicas:
 
 - Para pesquisas específicas nos registros devidamente armazenados no Banco de Dados, foi utilizada a gema 'PG-Search'. O serviço fornece busca universal, logo, não é necessário diferenciar qual campo deseja pesquisar. Também, através da 'tsearch' oferecida pelo serviço, são retornados resultados similares a query recebida, não sendo necessário ser literal. Ao enviar uma query, seja relacionada ao título, gênero, ano de lançamento, descrição, a API retornará todos os resultados encontrados, organizados por ordem de lançamento. Caso ocorra "empate" entre os resultados, o "desempate" é realizado pelo título, de ordem alfabética:
 
-- Para tanto, é necessário enviar uma GET request para o mesmo endereço, seguida da query que deseja pesquisar. Dessa forma: 
-```
-http://localhost:3000/api/v1/movies?query={termoQueDesejaPesquisar}
-```
+  - Para tanto, é necessário enviar uma GET request para o mesmo endereço, seguida da query que deseja pesquisar. Dessa forma: 
+  
+  
+  ```
+  http://localhost:3000/api/v1/movies?query={termoQueDesejaPesquisar}
+  http://localhost:3000/api/v1/movies/?query={termoQueDesejaPesquisar}&page={paginação} # caso deseje acessar a segunda página dos resultados fornecidos após pesquisa
+  ```
 
 ## **Como testar:**
 
