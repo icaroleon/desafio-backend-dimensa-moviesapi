@@ -46,3 +46,4 @@ gem 'rspec-debug'
 gem "debug", ">= 1.0.0"
 gem 'to_api', '~> 1.3'
 gem 'kaminari'
+gem 'rspec-expectations'

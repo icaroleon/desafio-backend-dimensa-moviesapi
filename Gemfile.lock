@@ -219,6 +219,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 6.1.7)
   rspec-debug
+  rspec-expectations
   rspec-rails
   spring
   to_api (~> 1.3)

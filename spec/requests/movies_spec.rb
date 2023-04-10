@@ -10,31 +10,38 @@ RSpec.describe Api::V1::MoviesController, :type => :controller do
         FactoryBot.create(:movie, title: 'Batman: The Dark Night', genre: 'Action', year: '2008', country: 'USA', description: 'The plot follows the vigilante Batman, police lieutenant James Gordon, and district attorney Harvey Dent, who form an alliance to dismantle organized crime in Gotham City. Their efforts are derailed by the Joker, an anarchistic mastermind who seeks to test how far Batman will go to save the city from chaos.', published_at: '2008-07-18') 
       end
 
-      it 'returns all movies' do
-        get :index, params: { query: 'Central do Brasil' }
-
+      it 'returns movies that matches the query' do
+        get :index, params: { query: 'Brasil' }
         expect(response).to have_http_status(200)
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(response.body).to include('Central do Brasil')
-        end
+      end
 
       it "don't find any movie" do
         get :index, params: { query: 'La Casa de Papel' }
         expect(response).to have_http_status(404)
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(response.body).to include("We don't find this term that you are looking for. Please try another.")
+        expect(response.body).to include("We don't find any movies with this term. Try another")
       end
 
-      it "don't find any movie because the query is nill" do
-        get :index, params: { query: nil }
+      it "don't find any movie because the query is empty" do
+        get :index, params: { query: '' }
+        expect(response).to have_http_status(400)
+        expect(response.body).to include("The query that you send it was empty. Please verify.")
+      end
 
-        expect(response).to have_http_status(404)
-        expect(response.body).to include("You don't send any term to search. Please verify.")
+      it 'returns all movies if query is nil' do
+        get :index, params: {}
+        expect(response).to have_http_status(200)
+        expect(response.content_type).to eq('application/json; charset=utf-8')
+        expect(JSON.parse(response.body).size).to eq(Movie.all.count)
       end
     end
   end
 
   describe 'POST /api/v1/movies' do
+    
+
     context 'Unit tests to run for POSTS requests that send information to storage in the API database' do
       before(:each) do
         headers = ["Title", "Genre", "Year", "Country", "Description", "published_at"]
@@ -53,8 +60,7 @@ RSpec.describe Api::V1::MoviesController, :type => :controller do
       end
 
       it 'no file send it' do
-        post :create, params: { "Content-Type" => nil }
-
+        post :create, params: { csv_file: nil }
         expect(response).to have_http_status(400)
         expect(response.content_type).to eq("application/json; charset=utf-8")
         expect(response.body).to include("We don't receive any CSV file. Please check again.")
@@ -62,8 +68,7 @@ RSpec.describe Api::V1::MoviesController, :type => :controller do
 
       it 'other file extension than csv' do
         other_file_format = File.expand_path('/home/icleon/code/icaroleon/tarefas/desafio-backend-dimensa-moviesapi/moviesCsvConvertidosParaOutroFormato.xlsx')
-        post :create, params: {:file => Rack::Test::UploadedFile.new(other_file_format, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')} 
-
+        post :create, params: {file: Rack::Test::UploadedFile.new(other_file_format, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')} 
         expect(response).to have_http_status(415)
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(response.body).to include("We only accept CSV files. Please check if are sending CSV to us.")
@@ -71,11 +76,65 @@ RSpec.describe Api::V1::MoviesController, :type => :controller do
 
       it 'create a new movie' do
         post :create, params: {:file => Rack::Test::UploadedFile.new('movies_test.csv', 'text/csv')}
-
         expect(response).to have_http_status(200)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response.body).to include("We just saved the CSV that you send to us. Thank you.")
+        expect(response.body).to include("Movies successfully imported.")
       end
     end
+  end
+
+  describe "validations" do
+    context 'Unit tests to verify if the validations are working' do
+      it "requires title to be present" do
+        movie = Movie.new(title: nil, genre: "Action", year: 2022, country: "USA", description: "An action-packed movie", published_at: "2022-01-01")
+        expect(movie).to_not be_valid
+        expect(movie.errors[:title]).to include("can't be blank")
+      end
+
+      it "requires genre to be present" do
+        movie = Movie.new(title: "Test Movie", genre: nil, year: 2022, country: "USA", description: "An action-packed movie", published_at: "2022-01-01")
+        expect(movie).to_not be_valid
+        expect(movie.errors[:genre]).to include("can't be blank")
+      end
+
+      it "requires year to be present" do
+        movie = Movie.new(title: "Test Movie", genre: "Action", year: nil, country: "USA", description: "An action-packed movie", published_at: "2022-01-01")
+        expect(movie).to_not be_valid
+        expect(movie.errors[:year]).to include("can't be blank")
+      end
+
+      it "requires country to be present" do
+        movie = Movie.new(title: "Test Movie", genre: "Action", year: 2022, country: nil, description: "An action-packed movie", published_at: "2022-01-01")
+        expect(movie).to_not be_valid
+        expect(movie.errors[:country]).to include("can't be blank")
+      end
+
+      it "requires description to be present" do
+        movie = Movie.new(title: "Test Movie", genre: "Action", year: 2022, country: "USA", description: nil, published_at: "2022-01-01")
+        expect(movie).to_not be_valid
+        expect(movie.errors[:description]).to include("can't be blank")
+      end
+
+      it "requires published_at to be present" do
+        movie = Movie.new(title: "Test Movie", genre: "Action", year: 2022, country: "USA", description: "An action-packed movie", published_at: nil)
+        expect(movie).to_not be_valid
+        expect(movie.errors[:published_at]).to include("can't be blank")
+      end
+
+      it "requires id to be unique" do
+        movie1 = Movie.create(title: "Test Movie", genre: "Action", year: 2022, country: "USA", description: "An action-packed movie", published_at: "2022-01-01")
+        movie2 = Movie.new(title: "Another Test Movie", genre: "Comedy", year: 2022, country: "USA", description: "A funny movie", published_at: "2022-01-01")
+        movie2.id = movie1.id
+        expect(movie2).to_not be_valid
+        expect(movie2.errors[:id]).to include("has already been taken")
+      end
+
+      it "requires title to be unique" do
+        movie1 = Movie.create(title: "Test Movie", genre: "Action", year: 2022, country: "USA", description: "An action-packed movie", published_at: "2022-01-01")
+        movie2 = Movie.new(title: "Test Movie", genre: "Comedy", year: 2022, country: "USA", description: "A funny movie", published_at: "2022-01-01")
+        expect(movie2).to_not be_valid
+        expect(movie2.errors[:title]).to include("has already been taken")
+      end 
+    end  
   end
 end
