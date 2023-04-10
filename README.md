@@ -1,6 +1,6 @@
  # **Desafio Backend**
 
-<p align="justify"> API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da empresa Dimensa[^1]. A API é capaz de armazenar informações sobre filmes, incluindo título, diretor, sinopse, ano de lançamento e gênero. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON. </p align="justify">
+<p align="justify"> API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da empresa Dimensa. A API é capaz de armazenar informações sobre filmes, incluindo título, diretor, sinopse, ano de lançamento e gênero. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON. </p align="justify">
 
 ### **Requisitos:**
 
@@ -27,7 +27,7 @@
 ]
 ```
 
-# **Resolução:**
+# **Resolução[^1]:**
 
 ## **Tecnologias utilizadas:**
 - Ruby 3.0.4
@@ -72,23 +72,22 @@ Após, executar o comando para o servidor local iniciar:
 rails s
 ```
 
-### **POST Request** (Para criação de novos registros):
+## **POST Request** (Para criação de novos registros):
 
-O request deverá ser enviado para:
-  ```
-  http://localhost:3000/api/v1/movies
-  ```
-
-- Durante a elaboração da POST request, é necessário enviar um form-data com um file que contém os registros que deseja salvar no Banco de Dados.
+- Durante a elaboração da POST request, é necessário enviar um form-data com o parâmetro 'file' que contém os registros em um arquivo CSV que deseja salvar no Banco de Dados[^2].
    - A request ficará dessa forma:
      `
      headers => Content-Type text/csv body => file: csv_file.csv
      `
-   - <p align="justify">A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados. </p align="justify">
+   - Devendo ser enviado para:
+   
+     ```
+     http://localhost:3000/api/v1/movies
+     ```
+   
+## **GET Request** (Para busca em registros salvos):
 
-### **GET Request** (Para busca em registros salvos):
-
-#### Sobre a paginação:
+### Sobre a paginação:
 
 - <p align="justify">A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a configuração da API apresenta a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:</p align="justify">
 
@@ -96,7 +95,7 @@ O request deverá ser enviado para:
   http://localhost:3000/api/v1/movies/?page={páginaQueDeseja)
   ```
 
-#### Para listar todos os filmes:
+### Para listar todos os filmes:
 
 - <p align="justify">Para que sejam retornados todos os filmes listados, é necessário enviar um GET request sem passar nenhum tipo de parâmetro. Como dito acima, em decorrência da implementação da paginação, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request. A requisição ficará dessa forma:</p align="justify">
 
@@ -105,7 +104,7 @@ O request deverá ser enviado para:
   http://localhost:3000/api/v1/movies/?page=2 # para ter acesso à segunda página de todos os filmes listados
   ```
 
-#### Para pesquisas específicas:
+### Para pesquisas específicas:
 
 - <p align="justify">Para pesquisas específicas nos registros devidamente armazenados no Banco de Dados, foi utilizada a gema 'PG-Search'. O serviço fornece busca universal, logo, não é necessário diferenciar qual campo deseja pesquisar. Também, através da 'tsearch' oferecida pelo serviço, são retornados resultados similares a query recebida, não sendo necessário ser literal. Ao enviar uma query, seja relacionada ao título, gênero, ano de lançamento, descrição, a API retornará todos os resultados encontrados, organizados por ordem de lançamento. Caso ocorra "empate" entre os resultados, o "desempate" é realizado pelo título, de ordem alfabética:</p align="justify">
 
@@ -116,7 +115,7 @@ O request deverá ser enviado para:
     http://localhost:3000/api/v1/movies/?query={termoQueDesejaPesquisar}&page={paginação} # caso deseje acessar a segunda página dos resultados fornecidos após pesquisa
     ```
 
-## **Como testar:[^1]**
+## **Como testar[^3]:**
 
 - O RSPEC foi utilzado para a criação de testes. 15 testes foram criados, são eles:
   - Quatro testes para o GET request;
@@ -131,5 +130,5 @@ rspec
 ### **Enjoy :D**
 
 [^1]: Todo o código possui comentários explicando tudo que restou implementado.
-
-
+[^2]: A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada; O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados.
+[^3]: Há comentários no código que explicam os testes implementados.
