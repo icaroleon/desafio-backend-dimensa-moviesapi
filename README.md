@@ -2,7 +2,7 @@
 
 # **Desafio API**
 
-API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da empresa Dimensa. A API é capaz de armazenar informações sobre filmes, incluindo título, diretor, sinopse, ano de lançamento e gênero. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON.
+API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da empresa Dimensa[^1]. A API é capaz de armazenar informações sobre filmes, incluindo título, diretor, sinopse, ano de lançamento e gênero. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON.
 
 ### **Requisitos:**
 
@@ -34,8 +34,8 @@ API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da e
 
 | Metódo | Descrição |
 | ------------- | ------------- |
-|  GET  |  Método que possibilita a busca nos registros salvos [^1]  |
-| POST  | Método que possibilita criar um novo registro [^2]  |
+|  GET  |  Método que possibilita a busca nos registros salvos |
+| POST  | Método que possibilita criar um novo registro  |
 
 ## Como acessá-los:
 
@@ -67,16 +67,16 @@ rails s
 ### **POST Request** (Para criação de novos registros):
 
 O request deverá ser enviado para:
-```
+  ```
   http://localhost:3000/api/v1/movies
-```
+  ```
 
 - Durante a elaboração da POST request, é necessário enviar um form-data com um file que contém os registros que deseja salvar no Banco de Dados.
-   - A request ficará dessa forma[^2]:
+   - A request ficará dessa forma:
      `
      headers => Content-Type text/csv body => file: csv_file.csv
      `
-   - A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados[^3]. 
+   - A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados. 
 
 ### **GET Request** (Para busca em registros salvos):
 
@@ -84,17 +84,18 @@ O request deverá ser enviado para:
 
 - A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a configuração da API apresenta a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:
 
-```
-http://localhost:3000/api/v1/movies/?page={páginaQueDeseja)
-```
+  ```
+  http://localhost:3000/api/v1/movies/?page={páginaQueDeseja)
+  ```
+
 #### Para listar todos os filmes:
 
 - Para que sejam retornados todos os filmes listados, é necessário enviar um GET request sem passar nenhum tipo de parâmetro. Como dito acima, em decorrência da implementação da paginação, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request. A requisição ficará dessa forma:
 
-```
-http://localhost:3000/api/v1/movies # para listar todos os filmes
-http://localhost:3000/api/v1/movies/?page=2 # para ter acesso à segunda página de todos os filmes listados
-```
+  ```
+  http://localhost:3000/api/v1/movies # para listar todos os filmes
+  http://localhost:3000/api/v1/movies/?page=2 # para ter acesso à segunda página de todos os filmes listados
+  ```
 
 #### Para pesquisas específicas:
 
@@ -102,54 +103,25 @@ http://localhost:3000/api/v1/movies/?page=2 # para ter acesso à segunda página
 
   - Para tanto, é necessário enviar uma GET request para o mesmo endereço, seguida da query que deseja pesquisar. Dessa forma: 
   
-  
-  ```
-  http://localhost:3000/api/v1/movies?query={termoQueDesejaPesquisar}
-  http://localhost:3000/api/v1/movies/?query={termoQueDesejaPesquisar}&page={paginação} # caso deseje acessar a segunda página dos resultados fornecidos após pesquisa
-  ```
+    ```
+    http://localhost:3000/api/v1/movies?query={termoQueDesejaPesquisar}
+    http://localhost:3000/api/v1/movies/?query={termoQueDesejaPesquisar}&page={paginação} # caso deseje acessar a segunda página dos resultados fornecidos após pesquisa
+    ```
 
 ## **Como testar:**
 
-- O RSPEC foi utilzado para a criação de testes. Seis testes foram criados, são eles:
-  - Três testes para o GET request:
-    1. Para verificar quando uma query vazia é enviada. Retorna:
-    `
-    Status 404 e o JSON contendo: "You don't send any query to movie search. Please check."
-    `
-    2. Para verificar quando uma query sem resultados é enviada. Retorna:
-     `
-    Status 400 e o JSON contendo: "We don't find this term that you are looking for. Please try another."
-    `
-    3. Para verificar quando uma query com resultados é enviada. Retorna: 
-    `
-    Status 200 e o JSON contendo os resultados encontrados.
-    `
+- O RSPEC foi utilzado para a criação de testes. 15 testes foram criados, são eles:
+  - Quatro testes para o GET request;
   - Três testes para o POST request:
-    1. Para verificar quando um request é enviada sem o arquivo necessário para salvar no banco de dados. Retorna:
-    `
-    Status 400 e o JSON contendo: "We don't receive any CSV file. Please check again."
-    `
-    2. Para verificar quando um request é enviada com algum arquivo anexado que não seja do formato .csv, não sendo possível salvar no banco de dados. Retorna: 
-    `
-    Status 415 e o JSON contendo: "We only accept CSV files. Please check if are sending CSV to us."
-    `
-    3. Para verificar quando um request é enviada com um arquivo .csv, sendo possível salvar os registros no banco de dados. Retorna: 
-    `
-    Status 200 e o JSON contendo: "We just saved the CSV that you send to us. Thank you."
-    `
+  - Oito testes para validações de registros.
     
 - Para tanto, execute o comando:
 
 ```
 rspec
 ```
-
-
 ### **Enjoy :D**
 
-
-
-[^1]: Três respostas são possíveis: 1 - Nenhum tipo de query foi enviada; 2 - A busca encontrou registros com o termo enviado; 3 - A busca não encontrou qualquer tipo de resultado com o termo pesquisado. Todas as response se encontram formatadas em arquivo JSON. 
-[^2]: Três respostas são possíveis: 1 - Não foi enviado qualquer tipo de arquivo; 2 - O arquivo enviado não é da extensão .csv; 3 - Os registros do arquivo enviado foram definitivamente salvos no banco de dados. Todas as response se encontram formatadas em arquivo JSON.
+[^1]: Todo o código possui comentários explicando tudo que restou implementado.
 
 
