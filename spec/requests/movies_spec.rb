@@ -58,7 +58,7 @@ RSpec.describe Api::V1::MoviesController, type: :controller do
 
       it "other file extension than csv" do
         # O segundo teste verifica se um arquivo com extensão diferente de CSV é enviado, retornando um erro 415 com uma mensagem indicando que apenas arquivos CSV são aceitos.
-        other_file_format = File.expand_path("/home/icleon/code/icaroleon/tarefas/desafio-backend-dimensa-moviesapi/moviesCsvConvertidosParaOutroFormato.xlsx")
+        other_file_format = File.expand_path("moviesCsvConvertidosParaOutroFormato.xlsx")
         post :create, params: { file: Rack::Test::UploadedFile.new(other_file_format, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") } 
         expect(response).to have_http_status(415)
         expect(response.content_type).to eq("application/json; charset=utf-8")
@@ -67,7 +67,7 @@ RSpec.describe Api::V1::MoviesController, type: :controller do
 
       it "create a new movie" do
         # O terceiro teste cria um novo filme a partir de um arquivo CSV enviado, verificando se o status de resposta é 200, se a mensagem de sucesso é incluída na resposta e se o filme é adicionado ao banco de dados com sucesso.
-        uploaded_csv_file = File.expand_path("/home/icleon/code/icaroleon/tarefas/desafio-backend-dimensa-moviesapi/netflix_titles.csv")
+        uploaded_csv_file = File.expand_path("netflix_titles.csv")
         post :create, params: { file: Rack::Test::UploadedFile.new(uploaded_csv_file, "text/csv")}
         expect(response).to have_http_status(200)
         expect(response.content_type).to eq("application/json; charset=utf-8")
