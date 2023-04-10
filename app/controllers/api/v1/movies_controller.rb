@@ -2,7 +2,7 @@ require 'csv'
 require 'json'
 
 class Api::V1::MoviesController < Api::V1::BaseController
-  def index 
+  def index
     # A função 'index' é responsável por receber as requisições GET da API juntamente com seus parâmetros, verificar se obedecem aos requisitos e renderizar respostas a tais requests.
     query = params[:query]
     page = params[:page]

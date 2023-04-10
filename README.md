@@ -2,7 +2,7 @@
 
 # **Desafio API**
 
-Criar uma API de serviço do catálogo de filmes. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON.
+API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da empresa Dimensa. A API é capaz de armazenar informações sobre filmes, incluindo título, diretor, sinopse, ano de lançamento e gênero. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON.
 
 ### **Requisitos:**
 
@@ -42,7 +42,7 @@ Criar uma API de serviço do catálogo de filmes. Para isso será necessário cr
 - Para ter acesso à API na sua máquina local:
 
 ```
-git clone https://github.com/icaroleon/desafio-backend-moviesapi
+git clone https://github.com/icaroleon/desafio-backend-dimensa-moviesapi
 cd desafio-backend-moviesapi
 bundle install
 ```
@@ -76,15 +76,27 @@ rails s
      `
      headers => Content-Type text/csv body => file: csv_file.csv
      `
-   - A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados. 
+   - A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados[^3]. 
 
 ### Para busca em registros salvos (**GET Request**):
 
-- Foi utilizada a gema 'PG-Search' para possibilitar a busca nos registros devidamente armazenados no Banco de Dados. O serviço fornece busca universal, logo, não é necessário diferenciar qual campo deseja pesquisar. Ao enviar uma query, seja relacionada ao título, gênero, ano de lançamento, descrição, a API retornará todos os resultados encontrados, organizados por ordem de lançamento:
+A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a API foi configurada para apresentar a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:
+
+```
+localhost:3000/api/v1/movies/?page={páginaQueDeseja)
+```
+
+- Para que sejam retornados todos os filmes listados, é necessário enviar um GET request sem passar nenhum tipo de parâmetro. A requisição ficará dessa forma:
+
+```
+http://localhost:3000/api/v1/movies
+```
+
+- Para pesquisas específicas nos registros devidamente armazenados no Banco de Dados, foi utilizada a gema 'PG-Search'. O serviço fornece busca universal, logo, não é necessário diferenciar qual campo deseja pesquisar. Também, através da 'tsearch' oferecida pelo serviço, são retornados resultados similares a query recebida, não sendo necessário ser literal. Ao enviar uma query, seja relacionada ao título, gênero, ano de lançamento, descrição, a API retornará todos os resultados encontrados, organizados por ordem de lançamento. Caso ocorra "empate" entre os resultados, o "desempate" é realizado pelo título, de ordem alfabética:
 
 - Para tanto, é necessário enviar uma GET request para o mesmo endereço, seguida da query que deseja pesquisar. Dessa forma: 
 ```
-http://localhost:3000/api/v1/movies?query={termoQueDesejaPesquisar)
+http://localhost:3000/api/v1/movies?query={termoQueDesejaPesquisar}
 ```
 
 ## **Como testar:**

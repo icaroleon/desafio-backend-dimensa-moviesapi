@@ -5,7 +5,6 @@ class Movie < ApplicationRecord
   validates :title, :genre, :year, :country, :description, :published_at, presence: true # O método validates é utilizado para validar se os atributos do objeto atendem a determinados critérios. Neste caso, o código está validando se os atributos title, genre, year, country, description e published_at estão presentes (ou seja, não nulos), utilizando o parâmetro presence: true. Essa validação garante que os dados inseridos no objeto são completos e evita erros em operações que dependem desses atributos.
   paginates_per 10 # Determina o número máximo de itens retornados por página pela Gem Kaminari.
 
-
   def to_api
     # Esse método retorna um objeto com as informações do filme no formato indicado pelo desafio.
     {
@@ -25,7 +24,7 @@ class Movie < ApplicationRecord
     # Descrição: Retorna uma lista paginada de todos os filmes ordenados por ano de lançamento em ordem decrescente e, em caso de "empate", pelo título em ordem alfabética.
     # O retorno segue o formato especificado pelo método 'to_api'.
     # Caso o número da página seja especificado na requisição, a lista será paginada com base nesse número. Caso contrário, a página default é determinada pela configuração da Gem Kaminari ('config/initializers/kaminari_config.rb')
-    Movie.all.order(year: :desc, title: :asc).page(page).map(&:to_api) #Ao ser utilizada a expressão "&:" juntamente com o metódo Map, possibilita que o bloco "to_api" é passado como argumento.
+    Movie.all.order(year: :desc, title: :asc).page(page).map(&:to_api) # Ao ser utilizada a expressão "&:" juntamente com o método Map, possibilita que o bloco "to_api" é passado como argumento.
   end
 
   def self.search(query, page = nil)
@@ -35,7 +34,7 @@ class Movie < ApplicationRecord
 
     movies_search_list = Movie.search_movie(query).page(page)
 
-    movies_search_list.map(&:to_api) # Ao ser utilizada a expressão "&:" juntamente com o metódo Map, o bloco "to_api" é passado como argumento.
+    movies_search_list.map(&:to_api) # Ao ser utilizada a expressão "&:" juntamente com o método Map, o bloco "to_api" é passado como argumento.
   end
 
   ### Create
