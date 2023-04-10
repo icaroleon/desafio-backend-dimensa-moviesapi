@@ -1,8 +1,8 @@
-# **Desafio Backend**
+ # **Desafio Backend**
 
 # **Desafio API**
 
-API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da empresa Dimensa[^1]. A API é capaz de armazenar informações sobre filmes, incluindo título, diretor, sinopse, ano de lançamento e gênero. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON.
+<p align="justify"> API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da empresa Dimensa[^1]. A API é capaz de armazenar informações sobre filmes, incluindo título, diretor, sinopse, ano de lançamento e gênero. Para isso será necessário criar dois endpoints, um que faça a leitura de um arquivo CSV e crie os registros no banco de dados. E um segundo que liste todos os filmes cadastrados em formato JSON. </p align="justify">
 
 ### **Requisitos:**
 
@@ -30,6 +30,16 @@ API de serviço do catálogo de filmes para o Desafio Backend Ruby on Rails da e
 ```
 
 # **Resolução:**
+
+## **Tecnologias utilizadas:**
+- Ruby 3.0.4
+- Rails 6.1.7.3
+- PostgreSQL 12.14
+- Ubuntu 20.04
+- Gems:
+  - kaminari
+  - pg_search
+
 ## **Métodos da API:**
 
 | Metódo | Descrição |
@@ -76,13 +86,13 @@ O request deverá ser enviado para:
      `
      headers => Content-Type text/csv body => file: csv_file.csv
      `
-   - A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados. 
+   - <p align="justify">A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados. </p align="justify">
 
 ### **GET Request** (Para busca em registros salvos):
 
 #### Sobre a paginação:
 
-- A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a configuração da API apresenta a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:
+- <p align="justify">A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a configuração da API apresenta a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:</p align="justify">
 
   ```
   http://localhost:3000/api/v1/movies/?page={páginaQueDeseja)
@@ -90,7 +100,7 @@ O request deverá ser enviado para:
 
 #### Para listar todos os filmes:
 
-- Para que sejam retornados todos os filmes listados, é necessário enviar um GET request sem passar nenhum tipo de parâmetro. Como dito acima, em decorrência da implementação da paginação, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request. A requisição ficará dessa forma:
+- <p align="justify">Para que sejam retornados todos os filmes listados, é necessário enviar um GET request sem passar nenhum tipo de parâmetro. Como dito acima, em decorrência da implementação da paginação, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request. A requisição ficará dessa forma:</p align="justify">
 
   ```
   http://localhost:3000/api/v1/movies # para listar todos os filmes
@@ -99,16 +109,16 @@ O request deverá ser enviado para:
 
 #### Para pesquisas específicas:
 
-- Para pesquisas específicas nos registros devidamente armazenados no Banco de Dados, foi utilizada a gema 'PG-Search'. O serviço fornece busca universal, logo, não é necessário diferenciar qual campo deseja pesquisar. Também, através da 'tsearch' oferecida pelo serviço, são retornados resultados similares a query recebida, não sendo necessário ser literal. Ao enviar uma query, seja relacionada ao título, gênero, ano de lançamento, descrição, a API retornará todos os resultados encontrados, organizados por ordem de lançamento. Caso ocorra "empate" entre os resultados, o "desempate" é realizado pelo título, de ordem alfabética:
+- <p align="justify">Para pesquisas específicas nos registros devidamente armazenados no Banco de Dados, foi utilizada a gema 'PG-Search'. O serviço fornece busca universal, logo, não é necessário diferenciar qual campo deseja pesquisar. Também, através da 'tsearch' oferecida pelo serviço, são retornados resultados similares a query recebida, não sendo necessário ser literal. Ao enviar uma query, seja relacionada ao título, gênero, ano de lançamento, descrição, a API retornará todos os resultados encontrados, organizados por ordem de lançamento. Caso ocorra "empate" entre os resultados, o "desempate" é realizado pelo título, de ordem alfabética:</p align="justify">
 
-  - Para tanto, é necessário enviar uma GET request para o mesmo endereço, seguida da query que deseja pesquisar. Dessa forma: 
+  - <p align="justify">Para tanto, é necessário enviar uma GET request para o mesmo endereço, seguida da query que deseja pesquisar. Dessa forma: </p align="justify">
   
     ```
     http://localhost:3000/api/v1/movies?query={termoQueDesejaPesquisar}
     http://localhost:3000/api/v1/movies/?query={termoQueDesejaPesquisar}&page={paginação} # caso deseje acessar a segunda página dos resultados fornecidos após pesquisa
     ```
 
-## **Como testar:**
+## **Como testar:[^1]**
 
 - O RSPEC foi utilzado para a criação de testes. 15 testes foram criados, são eles:
   - Quatro testes para o GET request;
