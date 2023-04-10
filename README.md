@@ -64,7 +64,7 @@ rails db:create db:migrate
 rails s
 ```
 
-### Para criação de novos registros (**POST Request**):
+### **POST Request** (Para criação de novos registros):
 
 - O request deverá ser enviado para:
 ```
@@ -78,9 +78,9 @@ rails s
      `
    - A título de exemplo, o POSTMAN foi utilizado. Uma HTTP request com o método POST foi criada;  O Body Content-Type selecionado foi o form-data; A KEY foi denominada como 'file'; Um arquivo .csv foi anexado como VALUE. Após o envio, os registros são devidamente salvos no Banco de Dados[^3]. 
 
-### Para busca em registros salvos (**GET Request**):
+### **GET Request** (Para busca em registros salvos):
 
-A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a API foi configurada para apresentar a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:
+A API utiliza a 'Gem Kaminari' para paginação, sendo que cada resposta fornece 10 registros por página. Não é obrigatório o envio de tais parâmetros pois a configuração da API apresenta a primeira página como default. Contudo, caso seja necessário buscar mais registros, necessário passar o parâmetro 'page' na request:
 
 ```
 localhost:3000/api/v1/movies/?page={páginaQueDeseja)
