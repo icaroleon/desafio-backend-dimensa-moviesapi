@@ -45,3 +45,4 @@ gem 'pg_search'
 gem 'rspec-debug'
 gem "debug", ">= 1.0.0"
 gem 'kaminari'
+gem 'bundler'

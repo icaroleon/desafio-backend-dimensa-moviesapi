@@ -51,7 +51,7 @@ Para ter acesso à API na sua máquina local:
 
 ```
 git clone https://github.com/icaroleon/desafio-backend-dimensa-moviesapi
-cd desafio-backend-moviesapi
+cd desafio-backend-dimensa-moviesapi
 bundle install
 ```
 Como a extensão 'pgcrypto' é utilizada para a geração de UUID, é necessário que esteja logado como 'SUPERUSER' no postgreSQL: 
