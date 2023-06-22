@@ -8,8 +8,8 @@ RSpec.describe Api::V1::MoviesController, type: :controller do
       # Testes de unidade para uma consulta que o usuário envia.
       before(:each) do
         # Criação de objetos Movie com FactoryBot.create que serão usados no testes.
-        FactoryBot.create(:movie, title: "Central do Brasil", genre: "Drama", year: "1998", country: "Brazil", description: "Dora, uma amargurada ex-professora, ganha a vida escrevendo cartas para pessoas analfabetas, que ditam o que querem contar às suas famílias. Ela embolsa o dinheiro sem sequer postar as cartas. Um dia, Josué, o filho de nove anos de idade de uma de suas clientes, acaba sozinho quando a mãe é morta em um acidente de ônibus. Ela reluta em cuidar do menino, mas se junta a ele em uma viagem pelo interior do Nordeste em busca do pai de Josué, que ele nunca conheceu.", published_at: "1998-03-04") 
-        FactoryBot.create(:movie, title: "Batman: The Dark Night", genre: "Action", year: "2008", country: "USA", description: "The plot follows the vigilante Batman, police lieutenant James Gordon, and district attorney Harvey Dent, who form an alliance to dismantle organized crime in Gotham City. Their efforts are derailed by the Joker, an anarchistic mastermind who seeks to test how far Batman will go to save the city from chaos.", published_at: "2008-07-18") 
+        FactoryBot.create(:movie)
+        FactoryBot.create(:movie2)
       end
 
       it "returns movies that matches the query" do
@@ -21,11 +21,12 @@ RSpec.describe Api::V1::MoviesController, type: :controller do
       end
 
       it "don't find any movie" do
-        # O segundo teste verifica se uma mensagem de erro é retornada quando a consulta "La Casa de Papel" não corresponder a nenhum filme (Não foi criado nenhum filme com este título pelo FactoryBot). Assim, o status HTTP esperado é 404 e o corpo da resposta deve incluir a string "We don't find any movies with this term. Try another".
-        get :index, params: { query: "La Casa de Papel" }
+        query = 'La casa de Papel'
+        # O segundo teste verifica se uma mensagem de erro é retornada quando a consulta "La Casa de Papel" não corresponder a nenhum filme (Não foi criado nenhum filme com este título pelo FactoryBot). Assim, o status HTTP esperado é 404 e o corpo da resposta deve incluir a string "We don't find any movies with the term '#{query}'. Try another".
+        get :index, params: { query: query }
         expect(response).to have_http_status(404)
         expect(response.content_type).to eq("application/json; charset=utf-8")
-        expect(response.body).to include("We don't find any movies with this term. Try another")
+        expect(response.body).to include("We don't find any movies with the term '#{query}'. Try another")
       end
 
       it "don't find any movie because the query is empty" do
