@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Movie, type: :model do
   describe "Test Movie Model" do
-    # Associa um novo filme válido para ser usado para os testes
     let(:movie) { FactoryBot.build(:movie) }
   
     it "is valid with valid attributes" do
