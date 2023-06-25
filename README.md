@@ -119,8 +119,9 @@ rails s
 
 - O RSPEC foi utilzado para a criação de testes. 15 testes foram criados, são eles:
   - Quatro testes para o GET request;
-  - Três testes para o POST request:
-  - Oito testes para validações de registros.
+  - Três testes para o POST request;
+  - Oito testes para validações de registros;
+  - Oito testes para o Movies Model.
     
 - Para tanto, execute o comando:
 
